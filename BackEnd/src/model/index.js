@@ -1,45 +1,44 @@
-const User = require('./user');
-const Department = require('./department');
-const Team = require('./team');
-const Project = require('./project');
-const Task = require('./task');
-const Notification = require('./notification');
-const WorkSession = require('./workSession');
+const user = require('./user');
+const department = require('./department');
+const team = require('./team');
+const project = require('./project');
+const task = require('./task');
+const notification = require('./notification');
+const workSession = require('./workSession');
 
 // Setting up associations
-User.hasMany(Department, { foreignKey: 'ManagerID' });
-Department.belongsTo(User, { foreignKey: 'ManagerID' });
+user.hasMany(Department, { foreignKey: 'ManagerID' });
+department.belongsTo(User, { foreignKey: 'ManagerID' });
 
-User.hasMany(Team, { foreignKey: 'TeamLeaderID' });
-Team.belongsTo(User, { foreignKey: 'TeamLeaderID' });
+user.hasMany(Team, { foreignKey: 'TeamLeaderID' });
+team.belongsTo(User, { foreignKey: 'TeamLeaderID' });
 
-Department.hasMany(Team, { foreignKey: 'tDepartmentId' });
-Team.belongsTo(Department, { foreignKey: 'tDepartmentId' });
+department.hasMany(Team, { foreignKey: 'tDepartmentId' });
+team.belongsTo(Department, { foreignKey: 'tDepartmentId' });
 
-Team.hasMany(Project, { foreignKey: 'TeamID' });
-Project.belongsTo(Team, { foreignKey: 'TeamID' });
+team.hasMany(Project, { foreignKey: 'TeamID' });
+project.belongsTo(Team, { foreignKey: 'TeamID' });
 
-Department.hasMany(Project, { foreignKey: 'DepartmentID' });
-Project.belongsTo(Department, { foreignKey: 'DepartmentID' });
+department.hasMany(Project, { foreignKey: 'DepartmentID' });
+project.belongsTo(Department, { foreignKey: 'DepartmentID' });
 
-Project.hasMany(Task, { foreignKey: 'TaskProjectID' });
-Task.belongsTo(Project, { foreignKey: 'TaskProjectID' });
+project.hasMany(Task, { foreignKey: 'TaskProjectID' });
+task.belongsTo(Project, { foreignKey: 'TaskProjectID' });
 
-User.hasMany(Task, { foreignKey: 'UserID' });
-Task.belongsTo(User, { foreignKey: 'UserID' });
+user.hasMany(Task, { foreignKey: 'UserID' });
+task.belongsTo(User, { foreignKey: 'UserID' });
+notification.hasMany(Task, { foreignKey: 'TaskNotificationID' });
+task.belongsTo(Notification, { foreignKey: 'TaskNotificationID' });
 
-Notification.hasMany(Task, { foreignKey: 'TaskNotificationID' });
-Task.belongsTo(Notification, { foreignKey: 'TaskNotificationID' });
-
-User.hasMany(WorkSession, { foreignKey: 'UserID' });
-WorkSession.belongsTo(User, { foreignKey: 'UserID' });
+user.hasMany(WorkSession, { foreignKey: 'UserID' });
+workSession.belongsTo(User, { foreignKey: 'UserID' });
 
 module.exports = {
-  User,
-  Department,
-  Team,
-  Project,
-  Task,
-  Notification,
-  WorkSession
+  user,
+  department,
+  team,
+  project,
+  task,
+  notification,
+  workSession
 };
