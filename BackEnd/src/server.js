@@ -1,7 +1,6 @@
 const express = require('express');
 const databaseConfig = require('./config/database'); 
-const initModels = require('./model');
-const { apiRouter } = require('./routes');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 8081;
@@ -9,10 +8,24 @@ const port = 8081;
 app.use(express.json());
 app.use(express.static('public'));
 
+let models;
+
 async function startServer() {
     try {
+        console.log('Initializing database...');
         await databaseConfig.initialize();
-        await initModels();
+        console.log('Database initialized.');
+
+        const initModels = require('./model');
+        
+        console.log('Initializing models...');
+        models = await initModels();
+        console.log('Models initialized.');
+
+        const { apiRouter } = require('./routes');
+        
+        let hash = await bcrypt.hash("elias", 10);
+        console.log(hash);
 
         app.use('/api', apiRouter);
 
@@ -29,3 +42,5 @@ async function startServer() {
 }
 
 startServer();
+
+module.exports = {getModels : () => models}

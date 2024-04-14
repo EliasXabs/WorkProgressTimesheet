@@ -9,7 +9,7 @@ const initTaskModel = require('./models/task');
 const initNotificationModel = require('./models/notification');
 const initWorkSessionModel = require('./models/workSession');
 
-async function initModels() {
+module.exports = async function initModels() {
     const sequelize = getSequelize();  // This fetches the already initialized Sequelize instance
 
     // Initialize models
@@ -67,5 +67,3 @@ async function initModels() {
         WorkSession
     };
 }
-
-module.exports = initModels;

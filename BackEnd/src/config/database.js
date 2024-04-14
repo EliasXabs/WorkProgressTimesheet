@@ -9,34 +9,31 @@ const dialect = 'mysql';
 let sequelize;
 
 async function initialize() {
-    const sequelizeTemp = new Sequelize('', user, password, {
-        host: host,
-        dialect: dialect,
-        logging: false
-    });
+    console.log('Starting database initialization...');
+    const sequelizeTemp = new Sequelize('', user, password, { host, dialect, logging: false });
 
     try {
+        console.log('Creating database if it does not exist...');
         await sequelizeTemp.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
-        sequelizeTemp.close();
+        console.log('Database creation check completed.');
 
+        sequelizeTemp.close();
         sequelize = new Sequelize(dbName, user, password, {
-            host: host,
-            dialect: dialect,
-            pool: {
-                max: 50,
-                min: 0,
-                acquire: 30000,
-                idle: 10000
-            }
+            host,
+            dialect,
+            pool: { max: 50, min: 0, acquire: 30000, idle: 10000 }
         });
 
+        console.log('Authenticating database connection...');
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
-        await sequelize.sync({ force: false }); // or true in development if needed
+
+        console.log('Synchronizing database...');
+        await sequelize.sync({ force: false });
         console.log('Database synchronized successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
-        await sequelizeTemp.close();
+        sequelizeTemp.close();
         throw error;
     }
 }
