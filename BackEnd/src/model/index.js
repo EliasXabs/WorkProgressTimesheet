@@ -1,4 +1,4 @@
-const { getSequelize } = require('../config/database');  // Adjust the path to your actual database config file
+const { getSequelize } = require('../config/database');
 
 // Import model definitions
 const initUserModel = require('./models/user');
