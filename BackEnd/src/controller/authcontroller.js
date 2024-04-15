@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { findUserByUsername } = require('../model/queries/userQueries');
+const { findUserByUsername, addUser } = require('../model/queries/userQueries');
 
 exports.login = async (req, res) => {
     try {
@@ -35,3 +35,18 @@ exports.login = async (req, res) => {
         res.status(500).send({ message: 'Server error.' });
     }
 };
+
+exports.CreateAccount = async (req, res) => {
+    try {
+        const { Username, Password, FirstName, LastName, DateOfBirth, Email, Number, Role} = req.body;
+        const user = addUser(Username, Password, FirstName, LastName, DateOfBirth, Email, Number, Role);
+        if (user){
+            res.status(200).send({ message: 'User added successfully'});
+        }
+        else {
+            res.status(500).send({ message: "Database error"});
+        }
+    } catch (error){
+        throw error;
+    }
+}

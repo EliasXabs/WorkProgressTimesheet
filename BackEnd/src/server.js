@@ -23,9 +23,6 @@ async function startServer() {
         console.log('Models initialized.');
 
         const { apiRouter } = require('./routes');
-        
-        let hash = await bcrypt.hash("elias", 10);
-        console.log(hash);
 
         app.use('/api', apiRouter);
 
