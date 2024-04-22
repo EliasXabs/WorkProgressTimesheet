@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../../config/database');  // Adjust the path as necessary
+
 module.exports = (sequelize) => {
   class Notification extends Model {}
 
@@ -9,7 +9,16 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true
     },
-    // Define additional fields as needed
+    Description: {
+      type: DataTypes.STRING(255)
+    },
+    TaskID: { // This column references the task
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Task', // This should match the Sequelize model name
+        key: 'TaskID'
+      }
+    }
   }, {
     sequelize,
     modelName: 'Notification',
@@ -18,4 +27,4 @@ module.exports = (sequelize) => {
   });
 
   return Notification;
-}
+};

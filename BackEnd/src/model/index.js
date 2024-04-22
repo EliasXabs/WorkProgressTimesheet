@@ -43,8 +43,8 @@ module.exports = async function initModels() {
     User.hasMany(Task, { foreignKey: 'UserID' });
     Task.belongsTo(User, { foreignKey: 'UserID' });
 
-    Notification.hasMany(Task, { foreignKey: 'TaskNotificationID' });
-    Task.belongsTo(Notification, { foreignKey: 'TaskNotificationID' });
+    Task.hasMany(Notification, { foreignKey: 'TaskID' });
+    Notification.belongsTo(Task, { foreignKey: 'TaskID' });    
 
     User.hasMany(WorkSession, { foreignKey: 'UserID' });
     WorkSession.belongsTo(User, { foreignKey: 'UserID' });
