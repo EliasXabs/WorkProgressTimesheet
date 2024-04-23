@@ -1,6 +1,5 @@
 const express = require('express');
 const databaseConfig = require('./config/database'); 
-const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 8081;

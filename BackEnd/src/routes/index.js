@@ -1,13 +1,13 @@
 const express = require('express');
 const authRouter = require('./authroutes');
-const addRouter = require('./notiroutes');
+const notificationRouter = require('./notiroutes');
 
 const apiRouter = express.Router();
 apiRouter.use('/auth', authRouter);
-apiRouter.use('/create', addRouter);
+apiRouter.use('/notification', notificationRouter);
 
 module.exports = {
-    addRouter,
+    notificationRouter,
     apiRouter,
     authRouter
 };
