@@ -23,7 +23,26 @@ const addNotification = async (taskId, description) => {
     }
 };
 
+const deleteNotification = async (notificationId) => {
+    try {
+        const { Notification } = await getModels();
+
+        const notification = await Notification.findByPk(notificationId);
+        if (!notification) {
+            console.log(`Notification with ID ${notificationId} not found`);
+            return;
+        }
+
+        await notification.destroy();
+        console.log('Notification deleted');
+    } catch (error) {
+        console.error('Error deleting notification:', error);
+        throw error;
+    }
+};
+
 
 module.exports = {
-    addNotification
+    addNotification,
+    deleteNotification
 }
