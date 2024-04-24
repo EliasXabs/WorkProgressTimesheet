@@ -68,10 +68,27 @@ const editNotification = async (notificationId, updates) => {
     }
 };
 
+const fetchNotificationsByUserId = async (userId) => {
+    const { Notification, Task, Project } = await getModels();
+    return await Notification.findAll({
+        include: [{
+            model: Task,
+            required: true,
+            include: [{
+                model: Project,
+                required: true
+            }],
+            where: { UserID: userId }
+        }],
+        attributes: ['NotID', 'Description'],
+        order: [['NotID', 'DESC']]
+    });
+};
 
 
 module.exports = {
     addNotification,
     deleteNotification,
-    editNotification
+    editNotification,
+    fetchNotificationsByUserId
 }

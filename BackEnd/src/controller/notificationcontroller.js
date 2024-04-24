@@ -1,4 +1,4 @@
-const { addNotification, deleteNotification, editNotification } = require('../model/queries/notificationQueries');
+const { addNotification, deleteNotification, editNotification, fetchNotificationsByUserId } = require('../model/queries/notificationQueries');
 
 const createNotification = async (req, res) => {
 
@@ -61,10 +61,32 @@ const updateNotification = async (req, res) => {
     }
 };
 
+const getAllNotificationsByUserId = async (req, res) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        const notifications = await fetchNotificationsByUserId(userId);
+
+        const result = notifications.map(notification => ({
+            notificationId: notification.NotID,
+            description: notification.Description,
+            taskId: notification.Task.TaskID,
+            taskName: notification.Task.TaskDescription,
+            projectId: notification.Task.Project.pID,
+            projectName: notification.Task.Project.ProjectName // Assuming there's a ProjectName attribute
+        }));
+
+        res.json(result);
+    } catch (error) {
+        console.error('Error retrieving notifications:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 
 module.exports = {
     createNotification,
     removeNotification,
-    updateNotification
+    updateNotification,
+    getAllNotificationsByUserId
 };
