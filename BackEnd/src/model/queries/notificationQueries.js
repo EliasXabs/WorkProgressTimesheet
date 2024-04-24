@@ -41,8 +41,37 @@ const deleteNotification = async (notificationId) => {
     }
 };
 
+const editNotification = async (notificationId, updates) => {
+    try {
+        const { Notification } = await getModels();
+        
+        const notification = await Notification.findByPk(notificationId);
+        if (!notification) {
+            throw new Error(`Notification with ID ${notificationId} not found`);
+        }
+
+        // Update the fields if they exist in the updates object
+        if (updates.TaskID) {
+            notification.TaskID = updates.TaskID;
+        }
+        if (updates.Description) {
+            notification.Description = updates.Description;
+        }
+
+        await notification.save();
+        console.log('Notification updated');
+
+        return notification;
+    } catch (error) {
+        console.error('Error updating notification:', error);
+        throw error;
+    }
+};
+
+
 
 module.exports = {
     addNotification,
-    deleteNotification
+    deleteNotification,
+    editNotification
 }
