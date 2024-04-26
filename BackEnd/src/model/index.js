@@ -17,8 +17,8 @@ module.exports = async function initModels() {
     const Department = initDepartmentModel(sequelize);
     const Team = initTeamModel(sequelize);
     const Project = initProjectModel(sequelize);
-    const Notification = initNotificationModel(sequelize);
     const Task = initTaskModel(sequelize);
+    const Notification = initNotificationModel(sequelize);
     const WorkSession = initWorkSessionModel(sequelize);
 
     // Define associations
