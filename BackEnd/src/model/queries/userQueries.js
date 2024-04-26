@@ -1,5 +1,6 @@
 const { getModels } = require('../../server');
 
+
 const addUser = async (username, password, firstname, lastname, dateofbirth, email, number, role) => {
     try {
         const { User } = getModels();
