@@ -17,7 +17,10 @@ module.exports = (sequelize) => {
       }
     },
     TaskDescription: DataTypes.STRING(255),
-    CreatedIn: DataTypes.DATE,
+    CreatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: sequelize.NOW,
+    },
     Deadline: DataTypes.DATEONLY,
     UserID: {
       type: DataTypes.INTEGER,
