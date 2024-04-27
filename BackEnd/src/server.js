@@ -1,11 +1,16 @@
+const cors = require('cors');
 const express = require('express');
-const databaseConfig = require('./config/database'); 
+const databaseConfig = require('./config/database');
 
 const app = express();
 const port = 8081;
 
 app.use(express.json());
 app.use(express.static('public'));
+
+app.use(cors({
+    origin: 'http://localhost:3000'
+  }));
 
 let models;
 
