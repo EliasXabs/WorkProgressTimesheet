@@ -69,10 +69,12 @@ const getAllNotificationsByUserId = async (req, res) => {
         const result = notifications.map(notification => ({
             notificationId: notification.NotID,
             description: notification.Description,
+            managerFirstName: notification.Task.Project.Department.User.FirstName,
+            managerLastName: notification.Task.Project.Department.User.LastName,
             taskId: notification.Task.TaskID,
             taskName: notification.Task.TaskDescription,
             projectId: notification.Task.Project.pID,
-            projectName: notification.Task.Project.ProjectName // Assuming there's a ProjectName attribute
+            projectName: notification.Task.Project.ProjectName
         }));
 
         res.json(result);

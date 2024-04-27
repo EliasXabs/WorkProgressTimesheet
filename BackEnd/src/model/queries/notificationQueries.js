@@ -69,14 +69,22 @@ const editNotification = async (notificationId, updates) => {
 };
 
 const fetchNotificationsByUserId = async (userId) => {
-    const { Notification, Task, Project } = await getModels();
+    const { Notification, Task, Project, Department, User } = await getModels();
     return await Notification.findAll({
         include: [{
             model: Task,
             required: true,
             include: [{
                 model: Project,
-                required: true
+                required: true,
+                include: [{
+                    model: Department,
+                    required: true,
+                    include: [{
+                        model: User,  // Assuming there's only one direct User association used this way
+                        attributes: ['FirstName', 'LastName'], // Only pull these attributes for the manager
+                    }]
+                }],
             }],
             where: { UserID: userId }
         }],
@@ -84,6 +92,7 @@ const fetchNotificationsByUserId = async (userId) => {
         order: [['NotID', 'DESC']]
     });
 };
+
 
 
 module.exports = {

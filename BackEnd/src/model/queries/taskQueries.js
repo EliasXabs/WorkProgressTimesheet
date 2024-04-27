@@ -1,5 +1,5 @@
 const { getModels } = require('../../server');
-const createTask = async (pid,description,deadline,uid,priority,tstatus, createdat) => {
+const createTask = async (pid,description,deadline,uid,priority,tstatus) => {
   try { 
     const { Task } = getModels();
     console.log("Building Task ...");
