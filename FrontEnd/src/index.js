@@ -16,9 +16,9 @@ import { TimerProviderTasks } from './TimerContextTasks';
 import { TimerProvider } from './TimerContext';
 import DashboardPage from'./employee-dashboard';
 import AdminPage from './admin';
-import AccountForm from './Accountform';
-import ModifyForm from './modifyAccount';
-import Delete from './deleteAccount';
+import AccountForm from './admin-createAccount';
+import ModifyForm from './admin-modifyAccount';
+import Delete from './admin-deleteAccount';
 
 // Define routes using createBrowserRouter
 const router = createBrowserRouter([
