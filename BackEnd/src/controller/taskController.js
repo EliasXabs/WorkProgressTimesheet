@@ -63,10 +63,13 @@ const { addDays, format } = require('date-fns');
     exports.getTasksForSpecifiedWindow = async (req, res) => {
         const userId = req.headers['user-id']; // Assumes user ID is sent in headers
         const { startDate, endDate } = req.query; // Assumes dates are provided as query parameters
-    
+        
+        console.log("Received dates:", startDate, endDate);
+        console.log("Received userId:", userId);
+
         try {
             const tasks = await getTasksByUserIdAndDateRange(userId, startDate, endDate);
-            // Organize tasks by date
+            console.log("Tasks fetched:", tasks);
             const tasksByDate = [];
             let currentDate = new Date(startDate);
     

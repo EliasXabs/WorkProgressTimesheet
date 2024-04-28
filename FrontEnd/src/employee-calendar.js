@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faCalendarAlt, faClipboardList, faBell } from '@fortawesome/free-solid-svg-icons';
@@ -24,34 +25,54 @@ const CalendarPage = () => {
     });
   };
 
-  // Helper function to format date as a key
-  const formatDateKey = (date) => {
-    return date.toISOString().split('T')[0];
-  };
-
   // Initialize state to today and the following two days
   const [currentDateRange, setCurrentDateRange] = useState({
     startDate: new Date(),
     endDate: addDays(new Date(), 2),
   });
 
-  // Placeholder tasks for demonstration purposes
-  const [tasks, setTasks] = useState({
-    [formatDateKey(new Date())]: [
-      {
-        name: 'Task Name 1',
-        dueDate: new Date(),
-        description: 'This is the description for task 1.'
-      },
-      {
-        name: 'Task Name 2',
-        dueDate: new Date(),
-        description: 'This is the description for task 2.'
-      },
-      // ... more tasks
-    ],
-    // You would dynamically generate more dates and tasks as needed
-  });
+  const [tasks, setTasks] = useState({});
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const { startDate, endDate } = currentDateRange;
+      const userId = localStorage.getItem('userId');
+  
+      try {
+        const response = await axios.get(`http://localhost:8081/api/task/three-day-window`, {
+          headers: {
+            'user-id': userId,  // Ensure this header name matches what your server expects
+          },
+          params: {
+            startDate: startDate.toISOString().split('T')[0],
+            endDate: endDate.toISOString().split('T')[0]
+          }
+        });
+  
+        const newTasks = response.data.reduce((acc, day) => {
+          acc[day.date] = day.tasks.map(task => {
+            console.log("Processing task with Deadline:", task.Deadline);
+
+            const deadlineDate = task.Deadline ? new Date(task.Deadline) : new Date();
+
+            return {
+              ...task,
+              dueDate: new Date(task.Deadline)  // Convert and debug
+            };
+          });
+          return acc; // Make sure to return the accumulator
+        }, {}); // Initialize the accumulator as an empty object
+        
+  
+        setTasks(newTasks);
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+    };
+    
+    fetchTasks();
+  }, [currentDateRange]);
+  
 
   // Handler for previous arrow click
   const handlePrevClick = () => {
@@ -86,23 +107,19 @@ const CalendarPage = () => {
     navigate("/employee-notifications");
   };
 
-  // TaskCard component for displaying task details
-  const TaskCard = ({ task }) => (
-    <div style={styles.taskCard}>
-      <div style={styles.taskName}>{task.name}</div>
-      <div style={styles.taskDueDate}>Due Date: {formatDate(task.dueDate)}</div>
-      <div style={styles.taskDescription}>{task.description}</div>
-    </div>
-  );
-
   // TaskColumn component for displaying tasks for a given date
   const TaskColumn = ({ date }) => {
-    const tasksForDate = tasks[formatDateKey(date)] || [];
+    const key = date.toISOString().split('T')[0];
+    const tasksForDate = tasks[key] || [];
     return (
       <div style={styles.taskColumn}>
         <div style={styles.dayHeader}>{formatDate(date)}</div>
         {tasksForDate.map((task, index) => (
-          <TaskCard key={index} task={task} />
+          <div key={index} style={styles.taskCard}>
+            <div style={styles.taskName}>{task.name}</div>
+            <div style={styles.taskDueDate}>Due Date: {formatDate(new Date(task.dueDate))}</div>
+            <div style={styles.taskDescription}>{task.description}</div>
+          </div>
         ))}
       </div>
     );
