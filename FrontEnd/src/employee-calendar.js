@@ -116,9 +116,9 @@ const CalendarPage = () => {
         <div style={styles.dayHeader}>{formatDate(date)}</div>
         {tasksForDate.map((task, index) => (
           <div key={index} style={styles.taskCard}>
-            <div style={styles.taskName}>{task.name}</div>
+            <div style={styles.taskName}>{task.TaskTitle}</div>
             <div style={styles.taskDueDate}>Due Date: {formatDate(new Date(task.dueDate))}</div>
-            <div style={styles.taskDescription}>{task.description}</div>
+            <div style={styles.taskDescription}>{task.TaskDescription}</div>
           </div>
         ))}
       </div>

@@ -16,6 +16,7 @@ module.exports = (sequelize) => {
         key: 'pID'
       }
     },
+    TaskTitle: DataTypes.STRING(255),
     TaskDescription: DataTypes.STRING(255),
     CreatedAt: {
       type: DataTypes.DATE,

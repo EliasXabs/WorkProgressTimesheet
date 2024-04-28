@@ -68,10 +68,22 @@ const deleteUserByUsername = async (username) => {
     }
 };
 
+const getAllUsers = async () => {
+    const { User } = getModels();
+    try {
+        const users = await User.findAll({
+            attributes: ['id', 'username', 'firstName', 'lastName'] // Specify fields you need
+        });
+        return users;
+    } catch (error) {
+        throw error;
+    }
+};
 
 
 module.exports = {
     findUserByUsername,
     addUser,
-    deleteUserByUsername
+    deleteUserByUsername,
+    getAllUsers
 };

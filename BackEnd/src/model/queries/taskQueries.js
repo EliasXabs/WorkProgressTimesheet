@@ -1,11 +1,12 @@
 const { getModels } = require('../../server');
 const { Op } = require('sequelize');
-const createTask = async (pid,description,deadline,uid,priority,tstatus) => {
+const createTask = async (pid, title, description,deadline,uid,priority,tstatus) => {
   try { 
     const { Task } = getModels();
     console.log("Building Task ...");
     const task = Task.build({
       TaskProjectID : pid,
+      TaskTitle : title,
       TaskDescription : description,
       CreatedAt : new Date(),
       Deadline : deadline,

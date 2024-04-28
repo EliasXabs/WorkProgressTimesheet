@@ -7,8 +7,8 @@ const { addDays, format } = require('date-fns');
     // Create a new task
     exports.create= async (req, res) => {
         try {
-            const { pid, description, deadline, uid, priority, tstatus} = req.body;
-            const newTask = await createTask(pid,description,deadline,uid,priority,tstatus);
+            const { pid, title, description, deadline, uid, priority, tstatus} = req.body;
+            const newTask = await createTask(pid, title, description,deadline,uid,priority,tstatus);
             res.status(201).json(newTask);
         } catch (error) {
             res.status(400).json({ error: error.message });
