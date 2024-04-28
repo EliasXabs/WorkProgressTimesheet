@@ -21,33 +21,35 @@ module.exports = async function initModels() {
     const Notification = initNotificationModel(sequelize);
     const WorkSession = initWorkSessionModel(sequelize);
 
-    // Define associations
-    User.hasMany(Department, { foreignKey: 'ManagerID' });
+    // Define associations with cascading deletes
+    User.hasMany(Department, { foreignKey: 'ManagerID', onDelete: 'CASCADE' });
     Department.belongsTo(User, { foreignKey: 'ManagerID' });
 
-    User.hasMany(Team, { foreignKey: 'TeamLeaderID' });
+    User.hasMany(Team, { foreignKey: 'TeamLeaderID', onDelete: 'CASCADE' });
     Team.belongsTo(User, { foreignKey: 'TeamLeaderID' });
 
-    Department.hasMany(Team, { foreignKey: 'tDepartmentId' });
-    Team.belongsTo(Department, { foreignKey: 'tDepartmentId' });
-
-    Team.hasMany(Project, { foreignKey: 'TeamID' });
-    Project.belongsTo(Team, { foreignKey: 'TeamID' });
-
-    Department.hasMany(Project, { foreignKey: 'DepartmentID' });
-    Project.belongsTo(Department, { foreignKey: 'DepartmentID' });
-
-    Project.hasMany(Task, { foreignKey: 'TaskProjectID' });
-    Task.belongsTo(Project, { foreignKey: 'TaskProjectID' });
-
-    User.hasMany(Task, { foreignKey: 'UserID' });
+    User.hasMany(Task, { foreignKey: 'UserID', onDelete: 'CASCADE' });
     Task.belongsTo(User, { foreignKey: 'UserID' });
 
-    Task.hasMany(Notification, { foreignKey: 'TaskID' });
-    Notification.belongsTo(Task, { foreignKey: 'TaskID' });    
-
-    User.hasMany(WorkSession, { foreignKey: 'UserID' });
+    User.hasMany(WorkSession, { foreignKey: 'UserID', onDelete: 'CASCADE' });
     WorkSession.belongsTo(User, { foreignKey: 'UserID' });
+
+    // Ensure projects, teams, etc., that belong to departments also cascade
+    Department.hasMany(Team, { foreignKey: 'tDepartmentId', onDelete: 'CASCADE' });
+    Team.belongsTo(Department, { foreignKey: 'tDepartmentId' });
+
+    Team.hasMany(Project, { foreignKey: 'TeamID', onDelete: 'CASCADE' });
+    Project.belongsTo(Team, { foreignKey: 'TeamID' });
+
+    Department.hasMany(Project, { foreignKey: 'DepartmentID', onDelete: 'CASCADE' });
+    Project.belongsTo(Department, { foreignKey: 'DepartmentID' });
+
+    Project.hasMany(Task, { foreignKey: 'TaskProjectID', onDelete: 'CASCADE' });
+    Task.belongsTo(Project, { foreignKey: 'TaskProjectID' });
+
+    Task.hasMany(Notification, { foreignKey: 'TaskID', onDelete: 'CASCADE' });
+    Notification.belongsTo(Task, { foreignKey: 'TaskID' });
+
 
     // Synchronize all models to the database
     try {

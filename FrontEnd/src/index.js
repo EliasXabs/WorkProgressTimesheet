@@ -17,6 +17,8 @@ import { TimerProvider } from './TimerContext';
 import DashboardPage from'./employee-dashboard';
 import AdminPage from './admin';
 import AccountForm from './Accountform';
+import ModifyForm from './modifyAccount';
+import Delete from './deleteAccount';
 
 // Define routes using createBrowserRouter
 const router = createBrowserRouter([
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
   {
     path: "/create-account", 
     element: <AccountForm />,
+  },
+  {
+    path: "/edit-account",
+    element: <ModifyForm />,
+  },
+  {
+    path:"/delete-account",
+    element:<Delete />,
   }
 ]);
 
