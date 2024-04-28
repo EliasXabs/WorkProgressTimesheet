@@ -7,7 +7,7 @@ router.post('/CreateTask', taskController.create);
 router.patch('/UpdateTask/:taskid', taskController.update);
 router.get('/GetAllTask', taskController.getAll);
 router.delete('/DeleteTask/:taskid', taskController.delete);
-
+router.get('/three-day-window', taskController.getTasksForSpecifiedWindow);
 
 
 module.exports = router;

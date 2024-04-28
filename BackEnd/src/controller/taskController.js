@@ -1,7 +1,8 @@
 // taskController.js
 
 // Import the task query functions from the taskQueries module
-const { createTask, getAllTasks, updateTask, deleteTask } = require('../model/queries/taskQueries');
+const { createTask, getAllTasks, updateTask, deleteTask, getTasksByUserIdAndDateRange } = require('../model/queries/taskQueries');
+const { addDays, format } = require('date-fns');
 
     // Create a new task
     exports.create= async (req, res) => {
@@ -58,3 +59,30 @@ const { createTask, getAllTasks, updateTask, deleteTask } = require('../model/qu
             res.status(500).json({ error: error.message });
         }
     }
+
+    exports.getTasksForSpecifiedWindow = async (req, res) => {
+        const userId = req.headers['user-id']; // Assumes user ID is sent in headers
+        const { startDate, endDate } = req.query; // Assumes dates are provided as query parameters
+    
+        try {
+            const tasks = await getTasksByUserIdAndDateRange(userId, startDate, endDate);
+            // Organize tasks by date
+            const tasksByDate = [];
+            let currentDate = new Date(startDate);
+    
+            while (currentDate <= new Date(endDate)) {
+                tasksByDate.push({
+                    date: currentDate.toISOString().split('T')[0], // Format date to YYYY-MM-DD
+                    tasks: tasks.filter(task => 
+                        new Date(task.Deadline).toISOString().split('T')[0] === currentDate.toISOString().split('T')[0]
+                    )
+                });
+                currentDate.setDate(currentDate.getDate() + 1); // Increment day by 1
+            }
+    
+            res.json(tasksByDate);
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+            res.status(500).send({ message: 'Error fetching tasks' });
+        }
+    };

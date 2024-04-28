@@ -1,4 +1,5 @@
 const { getModels } = require('../../server');
+const { Op } = require('sequelize');
 const createTask = async (pid,description,deadline,uid,priority,tstatus) => {
   try { 
     const { Task } = getModels();
@@ -87,9 +88,23 @@ const deleteTask = async (id) => {
   }
 };
 
+const getTasksByUserIdAndDateRange = async (userId, startDate, endDate) => {
+  const { Task } = getModels();
+  return await Task.findAll({
+      where: {
+          UserID: userId,
+          Deadline: {
+              [Op.between]: [startDate, endDate]
+          }
+      },
+      order: [['Deadline', 'ASC']] // Orders tasks by deadline
+  });
+};
+
 module.exports = {
   createTask,
   getAllTasks,
   updateTask,
-  deleteTask
+  deleteTask,
+  getTasksByUserIdAndDateRange
 };
