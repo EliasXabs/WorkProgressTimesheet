@@ -51,6 +51,7 @@ const DashboardPage = () => {
   };
 
   const handleCheckOutClick = () => {
+    localStorage.removeItem('userId');
     setIsActive(false);
     resetTimerContext(); 
     navigate("/");
