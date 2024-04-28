@@ -22,6 +22,7 @@ import Delete from './admin-deleteAccount';
 import CreateForm from './admin-createTask';
 import ModifyTask from './admin-modifyTask';
 import DeleteTask from './admin-deleteTask';
+import PostNotification from './admin-postNotification';
 
 // Define routes using createBrowserRouter
 const router = createBrowserRouter([
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
   {
     path:"/delete-task",
     element:<DeleteTask />,
+  },
+  {
+    path:"/create-notification", 
+    element:<PostNotification />,
   }
 ]);
 
