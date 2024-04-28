@@ -20,6 +20,7 @@ import AccountForm from './admin-createAccount';
 import ModifyForm from './admin-modifyAccount';
 import Delete from './admin-deleteAccount';
 import CreateForm from './admin-createTask';
+import ModifyTask from './admin-modifyTask';
 
 // Define routes using createBrowserRouter
 const router = createBrowserRouter([
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
   {
     path:"/create-task",
     element: <CreateForm />,
+  },
+  {
+    path:"/edit-task",
+    element:<ModifyTask />,
   }
 ]);
 
