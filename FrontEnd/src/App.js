@@ -34,7 +34,7 @@ const LoginPage = () => {
         const userRole = response.data.user.Role;
         switch (userRole) {
           case 'Admin':
-            window.location.href = '/admin-dashboard';
+            window.location.href = '/admin';
             break;
           case 'User':
             window.location.href = '/employee-dashboard'; 

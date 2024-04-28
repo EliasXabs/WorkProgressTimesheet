@@ -15,6 +15,8 @@ import EmployeeTasksExpand from './employee-tasks-expand';
 import { TimerProviderTasks } from './TimerContextTasks'; 
 import { TimerProvider } from './TimerContext';
 import DashboardPage from'./employee-dashboard';
+import AdminPage from './admin';
+import AccountForm from './Accountform';
 
 // Define routes using createBrowserRouter
 const router = createBrowserRouter([
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
     path: "/employee-dashboard", 
     element: <DashboardPage />, 
   },
+  {
+    path: "/admin", 
+    element: <AdminPage />, 
+  },
+  {
+    path: "/create-account", 
+    element: <AccountForm />,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
