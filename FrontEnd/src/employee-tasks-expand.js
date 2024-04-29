@@ -15,7 +15,8 @@ const EmployeeTasksExpand = () => {
   useEffect(() => {
     const fetchTaskDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8081/api/task/getByID/${taskId}`);
+        console.log(taskId)
+        const response = await axios.get(`http://localhost:8081/api/task/getByTID/${taskId}`);
         setTaskDetails(response.data); // Assuming response.data contains task details
       } catch (error) {
         console.error('Error fetching task details:', error);
@@ -33,7 +34,7 @@ const EmployeeTasksExpand = () => {
   const elapsed = timer.totalTime || 0;
 
   // Event handlers for button clicks
-  const handleHomeClick = () => navigate("/");
+  const handleHomeClick = () => navigate("/employee-dashboard");
   const handleCalendarClick = () => navigate("/employee-calendar");
   const handleClipboardClick = () => navigate("/employee-tasks");
   const handleBellClick = () => navigate("/employee-notifications");
@@ -56,12 +57,11 @@ const EmployeeTasksExpand = () => {
       </div>
       <div style={styles.taskDetails}>
         <div style={styles.taskCard}>
-          <h2 style={styles.taskTitle}>{task.TaskTitle}</h2>
-          <p style={styles.taskDescription}>{task.TaskDescription}</p>
+          <h2 style={styles.taskTitle}>{taskDetails.TaskTitle || 'Task Title'}</h2>
+          <p style={styles.taskDescription}>{taskDetails.TaskDescription || 'Task description goes here...'}</p>
           <div style={styles.taskMetadata}>
-            <div style={styles.taskMetadataItem}><strong>Due Date:</strong> <span>{task.Deadline}</span></div>
-            <div style={styles.taskMetadataItem}><strong>Duration:</strong> <span>{task.duration || 'Duration'}</span></div>
-            {/* You can add more fields as necessary */}
+            <div style={styles.taskMetadataItem}><strong>Due Date:</strong> <span>{taskDetails.Deadline || 'Date'}</span></div>
+            <div style={styles.taskMetadataItem}><strong>Duration:</strong> <span>{taskDetails.duration || '1h'}</span></div>
           </div>
           <div style={styles.buttonGroup}>
             <button style={styles.controlButton} onClick={() => startTimer(task.TaskId)}>Start</button>

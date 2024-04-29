@@ -116,11 +116,23 @@ const getTasksByUserIdSortedByDeadline = async (userId) => {
   }
 };
 
+const getTaskById = async (taskId) => {
+  const { Task } = getModels();
+  try {
+    const task = await Task.findByPk(taskId);
+    return task;
+  } catch (error) {
+    console.error('Error fetching task by ID:', error);
+    throw error; // Rethrow to handle error logging at a higher level
+  }
+};
+
 module.exports = {
   createTask,
   getAllTasks,
   updateTask,
   deleteTask,
   getTasksByUserIdAndDateRange,
-  getTasksByUserIdSortedByDeadline
+  getTasksByUserIdSortedByDeadline,
+  getTaskById
 };

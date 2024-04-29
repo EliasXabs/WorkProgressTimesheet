@@ -17,7 +17,7 @@ const TaskPage = () => {
           return;
       }
       try {
-          const response = await axios.get(`http://localhost:8081/api/task/getByID/${userId}`);
+          const response = await axios.get(`http://localhost:8081/api/task/getByUID/${userId}`);
           setTasks(response.data);
       } catch (error) {
           console.error('Error fetching notifications:', error);

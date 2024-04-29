@@ -1,7 +1,7 @@
 // taskController.js
 
 // Import the task query functions from the taskQueries module
-const { createTask, getAllTasks, updateTask, deleteTask, getTasksByUserIdAndDateRange, getTasksByUserIdSortedByDeadline } = require('../model/queries/taskQueries');
+const { createTask, getAllTasks, updateTask, deleteTask, getTasksByUserIdAndDateRange, getTasksByUserIdSortedByDeadline, getTaskById } = require('../model/queries/taskQueries');
 
     // Create a new task
     exports.create= async (req, res) => {
@@ -89,7 +89,7 @@ const { createTask, getAllTasks, updateTask, deleteTask, getTasksByUserIdAndDate
         }
     };
 
-    exports.getTaskByID = async (req, res) => {
+    exports.getTaskByUID = async (req, res) => {
         try {
           const userId = parseInt(req.params.userId, 10);
           if (isNaN(userId)) {
@@ -99,5 +99,25 @@ const { createTask, getAllTasks, updateTask, deleteTask, getTasksByUserIdAndDate
           res.json(tasks);
         } catch (error) {
           res.status(500).json({ error: error.message });
+        }
+    };
+
+    exports.getTaskByTID = async (req, res) => {
+        try {
+            const taskId = req.params.taskId; // Get the task ID from the URL parameters
+            if (isNaN(taskId)) {
+                return res.status(400).json({ error: 'Invalid user ID' });
+              }
+            
+            const task = await getTaskById(taskId);
+    
+            if (!task) {
+                return res.status(404).json({ message: 'Task not found' });
+            }
+    
+            res.json(task); // Send the task data as JSON
+        } catch (error) {
+            console.error('Failed to fetch task:', error);
+            res.status(500).json({ error: 'Internal server error' });
         }
     };
