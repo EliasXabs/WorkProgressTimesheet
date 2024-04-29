@@ -1,12 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faCalendarAlt, faClipboardList, faBell } from '@fortawesome/free-solid-svg-icons';
 import { TimerContextTasks } from './TimerContextTasks';  // Import the context managing timers
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const EmployeeTasksExpand = () => {
   let navigate = useNavigate();
   let location = useLocation();
+  const { taskId } = useParams(); // If you are passing the task ID as a URL parameter
+  const [taskDetails, setTaskDetails] = useState(location.state?.task || {});
+
+  useEffect(() => {
+    const fetchTaskDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8081/api/task/getByID/${taskId}`);
+        setTaskDetails(response.data); // Assuming response.data contains task details
+      } catch (error) {
+        console.error('Error fetching task details:', error);
+      }
+    };
+
+    if (!taskDetails || Object.keys(taskDetails).length === 0) {
+      fetchTaskDetails();
+    }
+  }, [taskId, taskDetails]);
+
   const { timers, startTimer, stopTimer } = useContext(TimerContextTasks);
   const task = location.state?.task || {};
   const timer = timers[task.id] || {};
@@ -36,16 +56,16 @@ const EmployeeTasksExpand = () => {
       </div>
       <div style={styles.taskDetails}>
         <div style={styles.taskCard}>
-          <h2 style={styles.taskTitle}>{task.title || 'Task Title'}</h2>
-          <p style={styles.taskDescription}>{task.description || 'Task description goes here...'}</p>
+          <h2 style={styles.taskTitle}>{task.TaskTitle}</h2>
+          <p style={styles.taskDescription}>{task.TaskDescription}</p>
           <div style={styles.taskMetadata}>
-            <div style={styles.taskMetadataItem}><strong>Due Date:</strong> <span>{task.dateDue || 'Date'}</span></div>
+            <div style={styles.taskMetadataItem}><strong>Due Date:</strong> <span>{task.Deadline}</span></div>
             <div style={styles.taskMetadataItem}><strong>Duration:</strong> <span>{task.duration || 'Duration'}</span></div>
             {/* You can add more fields as necessary */}
           </div>
           <div style={styles.buttonGroup}>
-            <button style={styles.controlButton} onClick={() => startTimer(task.id)}>Start</button>
-            <button style={styles.controlButton} onClick={() => stopTimer(task.id)}>End</button>
+            <button style={styles.controlButton} onClick={() => startTimer(task.TaskId)}>Start</button>
+            <button style={styles.controlButton} onClick={() => stopTimer(task.TaskId)}>End</button>
           </div>
           <div>Elapsed Time: {Math.floor(elapsed / 1000)} seconds</div>
         </div>
