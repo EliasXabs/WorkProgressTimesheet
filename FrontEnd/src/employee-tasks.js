@@ -34,10 +34,7 @@ const TaskPage = () => {
   const handleBellClick = () => navigate("/employee-notifications");
   const toggleComplete = (taskId) => console.log(`Task ${taskId} completion toggled`);
   const handleExpandClick = (taskId) => {
-    const taskDetails = tasks.find(task => task.id === taskId);
-    if (taskDetails) {
-      navigate("/employee-tasks-expand", { state: { task: taskDetails } });
-    }
+    navigate(`/employee-tasks-expand/${taskId}`);
   };
   
   
@@ -68,8 +65,7 @@ const TaskPage = () => {
             </div>
             <div style={styles.taskDuration}>{task.duration}1</div>
             <FontAwesomeIcon icon={task.completed ? faCheck : farSquare} style={styles.taskIcon} />
-            <button style={styles.expandButton} onClick={() => handleExpandClick(task.id)}>Expand</button>
-
+            <button style={styles.expandButton} onClick={() => handleExpandClick(task.TaskID)}>Expand</button>
           </div>
         ))}
       </div>

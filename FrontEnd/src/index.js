@@ -43,7 +43,7 @@ const router = createBrowserRouter([
     element: <NotificationPage />,
   },
   {
-    path: "/employee-tasks-expand",
+    path: "/employee-tasks-expand/:taskId",
     element: <EmployeeTasksExpand />,
   },
   {
