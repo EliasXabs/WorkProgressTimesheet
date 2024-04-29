@@ -99,7 +99,7 @@ function DeleteTask() {
         const response = await axios.delete(`http://localhost:8081/api/task/DeleteTask/${formData.taskid}`);
         if (response.status === 200 || response.status === 204) {
             alert('Task deleted successfully');
-            navigate('/admin'); // or refresh tasks
+            navigate('/admin');
         } else {
             alert('Failed to delete task');
         }

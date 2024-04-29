@@ -187,13 +187,13 @@ function AccountForm() {
           />
           <select
             style={styles.select}
-            name="position"
-            value={formData.position} // Controlled by React state
+            name="Role"
+            value={formData.Role} // Controlled by React state
             onChange={handleChange}
           >
             <option value="" disabled hidden>Position</option>
             <option value="Admin">Admin</option>
-            <option value="TeamLeader">TeamLeader</option>
+            <option value="TeamLeader" disabled hidden>TeamLeader</option>
             <option value="User">User</option>
           </select>
           <button 

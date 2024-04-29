@@ -43,7 +43,7 @@ const LoginPage = () => {
             window.location.href = '/teamleader-dashboard'; 
             break;
           default:
-            window.location.href = '/login';
+            window.location.href = '/';
         }
       } else {
 
@@ -108,7 +108,10 @@ const styles = {
   },
   card: {
     backgroundColor: '#00BCD4',
-    padding: '20px',
+    paddingTop: '100px',
+    paddingRight: '20px',
+    paddingBottom: '100px',
+    paddingLeft: '20px',
     borderRadius: '8px',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
     width: '300px',
@@ -118,6 +121,7 @@ const styles = {
     textAlign: 'center',
   },
   form: {
+    margin: '100px 0 0 0',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -129,6 +133,7 @@ const styles = {
     outline: 'none',
   },
   button: {
+    margin: '70px 0 0 0',
     padding: '10px',
     backgroundColor: '#00796B',
     color: '#ffffff',

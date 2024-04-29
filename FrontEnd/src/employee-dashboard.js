@@ -86,7 +86,7 @@ const DashboardPage = () => {
       <div style={styles.header}>
         <div style={styles.headerItem}>
           <span style={styles.headerTitle}>Weekly Hours</span>
-          <span style={styles.headerValue}>99h 59m</span>
+          <span style={styles.headerValue}>{formatTime()}</span>
         </div>
         <div style={styles.headerItem}>
           <span style={styles.headerTitle}>Daily Hours</span>
@@ -94,7 +94,7 @@ const DashboardPage = () => {
         </div>
         <div style={styles.headerItem}>
           <span style={styles.headerTitle}>Tasks Done</span>
-          <span style={styles.headerValue}>999</span>
+          <span style={styles.headerValue}>0</span>
         </div>
       </div>
       <div style={styles.notificationsContainer}>
