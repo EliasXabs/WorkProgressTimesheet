@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faCalendarAlt, faClipboardList, faBell, faCheck, faExpandAlt } from '@fortawesome/free-solid-svg-icons';
@@ -6,11 +7,24 @@ import { faSquare as farSquare } from '@fortawesome/free-regular-svg-icons';
 
 const TaskPage = () => {
   let navigate = useNavigate();
+  const [tasks, setTasks] = useState([]);
 
-  const tasks = [
-    { id: 1, title: 'Task Title Demo', description: 'Description demo', dateDue: '31/12/9999 demo', duration: '99h 59m demo', completed: false },
-    // Add more tasks as needed
-  ];
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+          navigate('/login');
+          return;
+      }
+      try {
+          const response = await axios.get(`http://localhost:8081/api/task/getByID/${userId}`);
+          setTasks(response.data);
+      } catch (error) {
+          console.error('Error fetching notifications:', error);
+      }
+    };
+    fetchTasks();
+  }, []);
 
   // Event handlers
   // Add your navigation logic here
@@ -46,13 +60,13 @@ const TaskPage = () => {
       </div>
       <div style={styles.tasksContainer}>
         {tasks.map(task => (
-          <div key={task.id} style={styles.taskItem}>
+          <div key={task.TaskID} style={styles.taskItem}>
             <div style={styles.taskContent}>
-              <div style={styles.taskTitle}>{task.title}</div>
-              <div style={styles.taskDescription}>{task.description}</div>
-              <div style={styles.taskDate}>{task.dateDue}</div>
+              <div style={styles.taskTitle}>{task.TaskTitle}</div>
+              <div style={styles.taskDescription}>{task.TaskDescription}</div>
+              <div style={styles.taskDate}>{task.Deadline}</div>
             </div>
-            <div style={styles.taskDuration}>{task.duration}</div>
+            <div style={styles.taskDuration}>{task.duration}1</div>
             <FontAwesomeIcon icon={task.completed ? faCheck : farSquare} style={styles.taskIcon} />
             <button style={styles.expandButton} onClick={() => handleExpandClick(task.id)}>Expand</button>
 
