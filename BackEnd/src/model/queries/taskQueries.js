@@ -102,10 +102,25 @@ const getTasksByUserIdAndDateRange = async (userId, startDate, endDate) => {
   });
 };
 
+const getTasksByUserIdSortedByDeadline = async (userId) => {
+  const { Task } = getModels();
+  try {
+    const tasks = await Task.findAll({
+      where: { UserID: userId },
+      order: [['Deadline', 'ASC']]  // Sorts by Deadline in ascending order
+    });
+    return tasks;
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    throw error;  // Re-throw the error to be handled by the caller
+  }
+};
+
 module.exports = {
   createTask,
   getAllTasks,
   updateTask,
   deleteTask,
-  getTasksByUserIdAndDateRange
+  getTasksByUserIdAndDateRange,
+  getTasksByUserIdSortedByDeadline
 };

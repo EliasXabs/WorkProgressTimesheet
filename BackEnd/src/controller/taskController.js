@@ -1,8 +1,7 @@
 // taskController.js
 
 // Import the task query functions from the taskQueries module
-const { createTask, getAllTasks, updateTask, deleteTask, getTasksByUserIdAndDateRange } = require('../model/queries/taskQueries');
-const { addDays, format } = require('date-fns');
+const { createTask, getAllTasks, updateTask, deleteTask, getTasksByUserIdAndDateRange, getTasksByUserIdSortedByDeadline } = require('../model/queries/taskQueries');
 
     // Create a new task
     exports.create= async (req, res) => {
@@ -87,5 +86,18 @@ const { addDays, format } = require('date-fns');
         } catch (error) {
             console.error('Error fetching tasks:', error);
             res.status(500).send({ message: 'Error fetching tasks' });
+        }
+    };
+
+    exports.getTaskByID = async (req, res) => {
+        try {
+          const userId = parseInt(req.params.userId, 10);
+          if (isNaN(userId)) {
+            return res.status(400).json({ error: 'Invalid user ID' });
+          }
+          const tasks = await getTasksByUserIdSortedByDeadline(userId);
+          res.json(tasks);
+        } catch (error) {
+          res.status(500).json({ error: error.message });
         }
     };

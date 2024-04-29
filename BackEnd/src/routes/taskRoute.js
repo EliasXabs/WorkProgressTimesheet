@@ -8,6 +8,6 @@ router.patch('/UpdateTask/:taskid', taskController.update);
 router.get('/GetAllTask', taskController.getAll);
 router.delete('/DeleteTask/:taskid', taskController.delete);
 router.get('/three-day-window', taskController.getTasksForSpecifiedWindow);
-
+router.get('/getByID/:userId', taskController.getTaskByID);
 
 module.exports = router;
