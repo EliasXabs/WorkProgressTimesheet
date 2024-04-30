@@ -46,6 +46,7 @@ http://localhost:8081/api
     }
     ```
   - `401 Unauthorized`: User not found or incorrect credentials.
+  - `500 Internal Server Error`: Error in database operations.
 
 ### **Create User Account**
 
@@ -74,63 +75,101 @@ http://localhost:8081/api
     ```
   - `500 Internal Server Error`: Error in database operations.
 
-## Tasks
+## Task Controller API Documentation
 
-### **Create Task**
+### Create a New Task
 
-- **Endpoint**: `/task/CreateTask`
-- **Method**: `POST`
-- **Description**: Creates a new task with the specified details.
-- **Body**:
+- **Endpoint:** `POST /task/CreateTask`
+- **Description:** Creates a new task with the provided details.
+- **Request Body:**
   ```json
   {
-    "pid": 101,
-    "description": "Complete the project documentation.",
-    "deadline": "2023-12-31",
-    "uid": 1,
-    "priority": "High",
-    "tstatus": "Active"
+    "pid": "Project ID",
+    "title": "Task Title",
+    "description": "Task Description",
+    "deadline": "Deadline Date",
+    "uid": "User ID",
+    "priority": "Task Priority",
+    "tstatus": "Task Status"
   }
   ```
-- **Responses**:
-  - `201 Created`: Task created successfully.
-  - `400 Bad Request`: Missing required fields or validation failure.
+- **Responses:**
+  - `201 Created`: Returns the newly created task.
+  - `400 Bad Request`: Error message if there is a problem with the request data.
 
-### **Get All Tasks**
+### Retrieve All Tasks
 
-- **Endpoint**: `/task/GetAllTask`
-- **Method**: `GET`
-- **Description**: Retrieves all tasks.
-- **Responses**:
-  - `200 OK`: Successfully retrieved all tasks.
+- **Endpoint:** `GET /task/GetAllTask`
+- **Description:** Retrieves a list of all tasks in the system.
+- **Responses:**
+  - `200 OK`: An array of tasks.
+  - `500 Internal Server Error`: Error message in case of a server error.
 
-### **Update Task**
+### Update a Task
 
-- **Endpoint**: `/task/UpdateTask/:taskid`
-- **Method**: `PATCH`
-- **Description**: Updates the specified task.
-- **Parameters**:
+- **Endpoint:** `PATCH /task/UpdateTask/:taskid`
+- **Description:** Updates the specified task with the provided data.
+- **Parameters:**
   - `taskid`: The ID of the task to update.
-- **Body**:
+- **Request Body:**
   ```json
   {
-    "description": "Updated task description."
+    "title": "Updated Title",
+    "description": "Updated Description",
+    ... // Other task properties as needed
   }
   ```
-- **Responses**:
-  - `200 OK`: Task updated successfully.
-  - `404 Not Found`: Task not found.
+- **Responses:**
+  - `200 OK`: Returns the updated task details.
+  - `404 Not Found`: If no task with the specified ID exists.
+  - `500 Internal Server Error`: Error message in case of a server error.
 
-### **Delete Task**
+### Delete a Task
 
-- **Endpoint**: `/task/DeleteTask/:taskid`
-- **Method**: `DELETE`
-- **Description**: Deletes a task by its ID.
-- **Parameters**:
-  - `taskid`: The ID of the task to delete.
-- **Responses**:
-  - `204 No Content`: Task deleted successfully.
-  - `404 Not Found`: Task not found.
+- **Endpoint:** `DELETE /task/DeleteTask/:taskid`
+- **Description:** Deletes the task specified by the ID.
+- **Parameters:**
+  - `taskid`: The ID of the task to be deleted.
+- **Responses:**
+  - `204 No Content`: Message indicating successful deletion.
+  - `404 Not Found`: If no task with the specified ID exists.
+  - `500 Internal Server Error`: Error message in case of a server error.
+
+### Retrieve Tasks Within a Date Range for a User
+
+- **Endpoint:** `GET /task/getTasksForSpecifiedWindow`
+- **Description:** Retrieves tasks for a user within the specified start and end dates.
+- **Headers:**
+  - `user-id`: User ID whose tasks are to be fetched.
+- **Query Parameters:**
+  - `startDate`: Start date of the range.
+  - `endDate`: End date of the range.
+- **Responses:**
+  - `200 OK`: A list of tasks organized by date.
+  - `500 Internal Server Error`: Error message in case of a server error.
+
+### Retrieve Tasks for a User Sorted by Deadline
+
+- **Endpoint:** `GET /task/getTaskByUID/:userId`
+- **Description:** Retrieves all tasks for a specific user, sorted by their deadlines.
+- **Parameters:**
+  - `userId`: User ID for which tasks are retrieved.
+- **Responses:**
+  - `200 OK`: An array of tasks.
+  - `400 Bad Request`: Error message if the user ID is invalid.
+  - `500 Internal Server Error`: Error message in case of a server error.
+
+### Retrieve Task by Task ID
+
+- **Endpoint:** `GET /task/getTaskByTID/:taskId`
+- **Description:** Retrieves the details of a task specified by its ID.
+- **Parameters:**
+  - `taskId`: The ID of the task to retrieve.
+- **Responses:**
+  - `200 OK`: Returns the task details.
+  - `404 Not Found`: If no task with the specified ID exists.
+  - `400 Bad Request`: Error message if the task ID is invalid.
+  - `500 Internal Server Error`: Error message in case of a server error.
 
 ## Notifications
 
